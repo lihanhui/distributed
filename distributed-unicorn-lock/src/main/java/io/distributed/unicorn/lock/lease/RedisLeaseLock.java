@@ -9,6 +9,7 @@ import io.doraemon.distributed.lock.AbstractLeaseLock;
 
 public class RedisLeaseLock extends AbstractLeaseLock{
 	private RLock lock;
+	private static long DEFAULT_LEASE_TIME_SECONDS = 3; //seconds
 	public RedisLeaseLock(RLock lock) {
 		this.lock = lock;
 	}
@@ -25,6 +26,9 @@ public class RedisLeaseLock extends AbstractLeaseLock{
 	}
 
 	public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+		if(unit.toSeconds(time) < DEFAULT_LEASE_TIME_SECONDS) {
+			return lock.tryLock(DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS);
+		}
 		return lock.tryLock(time, unit);
 	}
 
@@ -41,14 +45,23 @@ public class RedisLeaseLock extends AbstractLeaseLock{
 	}
 
 	public void lockInterruptibly(long leaseTime, TimeUnit unit) throws InterruptedException {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			lock.lockInterruptibly(DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS);
+		}
 		lock.lockInterruptibly(leaseTime, unit);
 	}
 
 	public boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			lock.tryLock(waitTime, DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS);
+		}
 		return lock.tryLock( waitTime,  leaseTime,  unit);
 	}
 
 	public void lock(long leaseTime, TimeUnit unit) {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			lock.lock(DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS);
+		}
 		lock.lock(leaseTime, unit);
 	}
 
