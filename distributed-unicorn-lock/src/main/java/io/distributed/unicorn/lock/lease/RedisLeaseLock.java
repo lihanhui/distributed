@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Condition;
 
 import org.redisson.api.RLock;
 
+import io.doraemon.distributed.LeaseLockFuture;
 import io.doraemon.distributed.lock.AbstractLeaseLock;
 
 public class RedisLeaseLock extends AbstractLeaseLock{
@@ -88,5 +89,76 @@ public class RedisLeaseLock extends AbstractLeaseLock{
 	public long remainTimeToLive() {
 		return lock.remainTimeToLive();
 	}
-
+	@Override
+	public LeaseLockFuture<Boolean> forceUnlockAsync() {
+		return new LeaseLockFutureImpl<Boolean>(lock.forceUnlockAsync());
+	}
+	@Override
+	public LeaseLockFuture<Void> unlockAsync() {
+		return new LeaseLockFutureImpl<Void>(lock.unlockAsync());
+	}
+	@Override
+	public LeaseLockFuture<Void> unlockAsync(long threadId) {
+		return new LeaseLockFutureImpl<Void>(lock.unlockAsync(threadId));
+	}
+	@Override
+	public LeaseLockFuture<Boolean> tryLockAsync() {
+		return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync());
+	}
+	@Override
+	public LeaseLockFuture<Void> lockAsync() {
+		return new LeaseLockFutureImpl<Void>(lock.lockAsync());
+	}
+	@Override
+	public LeaseLockFuture<Void> lockAsync(long threadId) {
+		return new LeaseLockFutureImpl<Void>(lock.lockAsync(threadId));
+	}
+	@Override
+	public LeaseLockFuture<Void> lockAsync(long leaseTime, TimeUnit unit) {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			return new LeaseLockFutureImpl<Void>(lock.lockAsync(DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS));
+		}
+		return new LeaseLockFutureImpl<Void>(lock.lockAsync(leaseTime, unit));
+	}
+	@Override
+	public LeaseLockFuture<Void> lockAsync(long leaseTime, TimeUnit unit, long threadId) {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			return new LeaseLockFutureImpl<Void>(lock.lockAsync(DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS, threadId));
+		}
+		return new LeaseLockFutureImpl<Void>(lock.lockAsync(leaseTime, unit, threadId));
+	}
+	@Override
+	public LeaseLockFuture<Boolean> tryLockAsync(long threadId) {
+		return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync(threadId));
+	}
+	@Override
+	public LeaseLockFuture<Boolean> tryLockAsync(long waitTime, TimeUnit unit) {
+		return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync(waitTime, unit));
+	}
+	@Override
+	public LeaseLockFuture<Boolean> tryLockAsync(long waitTime, long leaseTime, TimeUnit unit) {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync(waitTime, DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS));
+		}
+		return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync(waitTime, leaseTime,unit));
+	}
+	@Override
+	public LeaseLockFuture<Boolean> tryLockAsync(long waitTime, long leaseTime, TimeUnit unit, long threadId) {
+		if(unit.toSeconds(leaseTime) < DEFAULT_LEASE_TIME_SECONDS) {
+			return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync(waitTime, DEFAULT_LEASE_TIME_SECONDS, TimeUnit.SECONDS, threadId));
+		}
+		return new LeaseLockFutureImpl<Boolean>(lock.tryLockAsync(waitTime, leaseTime,unit, threadId));
+	}
+	@Override
+	public LeaseLockFuture<Integer> getHoldCountAsync() {
+		return new LeaseLockFutureImpl<Integer>(lock.getHoldCountAsync());
+	}
+	@Override
+	public LeaseLockFuture<Boolean> isLockedAsync() {
+		return new LeaseLockFutureImpl<Boolean>(lock.isLockedAsync());
+	}
+	@Override
+	public LeaseLockFuture<Long> remainTimeToLiveAsync() {
+		return new LeaseLockFutureImpl<Long>(lock.remainTimeToLiveAsync());
+	}
 }
