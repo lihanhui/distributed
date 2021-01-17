@@ -40,5 +40,10 @@
 	    <artifactId>nacos-spring-context</artifactId>
 	    <version>1.0.0</version>
 	</dependency>
+	<dependency>
+		<groupId>io.distributed.unicorn</groupId>
+	  	<artifactId>distributed-unicorn-discovery-spring-context</artifactId>
+	  	<version>1.0</version>
+  	</dependency>
   </dependencies>
 </project>
