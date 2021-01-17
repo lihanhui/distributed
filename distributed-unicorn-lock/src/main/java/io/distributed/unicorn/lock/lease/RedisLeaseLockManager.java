@@ -12,6 +12,7 @@ public class RedisLeaseLockManager extends AbstractLeaseLockManager{
 	public RedisLeaseLockManager(RedissonClient redissonClient){
 		this.redissonClient = redissonClient;
 	}
+	// Reference: https://yq.aliyun.com/articles/551640
 	public RedisLeaseLockManager(String... clusterNodes){//"redis://127.0.0.1:7000", "redis://127.0.0.1:7001"
 		Config config = new Config();
 		config.useClusterServers()
