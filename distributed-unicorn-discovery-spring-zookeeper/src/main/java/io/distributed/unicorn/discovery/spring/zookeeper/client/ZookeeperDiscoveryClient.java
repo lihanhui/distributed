@@ -1,6 +1,6 @@
 package io.distributed.unicorn.discovery.spring.zookeeper.client;
 
-import io.distributed.unicorn.discovery.spring.context.service.AbstractServiceDiscoveryClient;
+import io.distributed.unicorn.common.discovery.AbstractServiceDiscoveryClient;
 import io.distributed.unicorn.discovery.spring.zookeeper.annotation.ZookeeperDiscoveryBean;
 
 // To disable the Eureka Discovery Client, you can set eureka.client.enabled to false. 
