@@ -2,6 +2,7 @@ package io.distributed.unicorn.common.service;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -19,18 +20,29 @@ public class ServiceInstanceStat {
 	private AtomicLong latestError = new AtomicLong(0);
 	
 	private long lastUpdateDate = -1;
-	ServiceInstanceStat(){
-		scheduler.scheduleAtFixedRate(new UpdateStatTask(), 10, 10, TimeUnit.SECONDS);
+	
+	private IServiceInstance instance;
+	private ScheduledFuture<?> result = null;
+	ServiceInstanceStat(IServiceInstance instance){
+		this.instance = instance;
+		result = scheduler.scheduleAtFixedRate(new UpdateStatTask(), 10, 10, TimeUnit.SECONDS);
 	}
 	private class UpdateStatTask implements Runnable {
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			ServiceInstanceStat.this.lastUpdateDate = System.currentTimeMillis();
-			//totalReq.set
+			ServiceInstanceStat.this.latestError.set(0);
+			ServiceInstanceStat.this.latestReq.set(0);
+			ServiceInstanceStat.this.latestResp.set(0);
+			
+			ServiceInstanceStat.this.totalError.set(0);
+			ServiceInstanceStat.this.totalReq.set(0);
+			ServiceInstanceStat.this.totalResp.set(0);
 		}
 	}
-	// statDate = xxx;
+	public long lastUpdateDate() {
+		return lastUpdateDate;
+	}
 	public long totalReq() {
 		return totalReq.get();
 	}

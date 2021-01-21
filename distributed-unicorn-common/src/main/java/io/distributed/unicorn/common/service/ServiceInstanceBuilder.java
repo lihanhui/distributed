@@ -15,6 +15,10 @@ public class ServiceInstanceBuilder {
 		serviceInstance.serviceId(serviceId);
 		return this;
 	}
+	public ServiceInstanceBuilder instanceId(String instanceId) {
+		serviceInstance.instanceId(instanceId);
+		return this;
+	}
 	public ServiceInstanceBuilder host(String host) {
 		serviceInstance.host(host);
 		return this;
@@ -36,8 +40,8 @@ public class ServiceInstanceBuilder {
 		serviceInstance.metadata(metadata);
 		return this; 
 	}
-	public ServiceInstanceBuilder warmup(boolean warmup) {
-		serviceInstance.warmup(warmup);
+	public ServiceInstanceBuilder status(ServiceInstanceStatus status) {
+		serviceInstance.status(status);
 		return this;
 	}
 	public IServiceInstance build(){

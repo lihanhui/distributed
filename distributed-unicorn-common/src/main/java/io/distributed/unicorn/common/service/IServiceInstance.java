@@ -3,14 +3,17 @@ package io.distributed.unicorn.common.service;
 import java.net.URI;
 import java.util.Map;
 
-import io.distributed.unicorn.common.observer.RpcObserver;
+import io.distributed.unicorn.common.observer.ServiceInstanceObserver;
 
-public interface IServiceInstance extends RpcObserver{
+public interface IServiceInstance extends ServiceInstanceObserver{
 		/**
 		 * @return the service id as registered.
 		 */
 		String serviceId();
+		
+		String instanceId();
 
+		ServiceInstanceStatus status();
 		/**
 		 * @return the hostname of the registered ServiceInstance
 		 */

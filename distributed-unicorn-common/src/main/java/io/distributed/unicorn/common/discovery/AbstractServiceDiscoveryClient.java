@@ -5,29 +5,35 @@ import java.util.List;
 import io.distributed.unicorn.common.service.IServiceInstance;
 import io.distributed.unicorn.common.service.ServiceInstanceChooser;
 
-public abstract class AbstractServiceDiscoveryClient implements ServiceDiscoveryClient, ServiceInstanceChooser {
-
-	public IServiceInstance choose(String serviceId) {
-		return null;
-	};
+public abstract class AbstractServiceDiscoveryClient implements ServiceDiscoveryClient {
+	private ServiceInstanceChooser chooser ;
 	
-	public String description() {
-		// TODO Auto-generated method stub
-		return null;
+	public AbstractServiceDiscoveryClient() {
+		chooser = new DefaultServiceInstanceChooser();
 	}
-
-	public List<IServiceInstance> getInstances(String serviceId) {
-		// TODO Auto-generated method stub
-		return null;
+	public AbstractServiceDiscoveryClient(ServiceInstanceChooser chooser) {
+		if(chooser == null) {
+			this.chooser = new DefaultServiceInstanceChooser();
+		}else {
+			this.chooser = chooser;
+		}
 	}
-
-	public List<String> getServices() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract List<IServiceInstance> getInstances(String serviceId);	
 	
 	public IServiceInstance getInstance(String serviceId){
-		return choose(serviceId);
+		return chooser.choose(serviceId);
 	}
+	
+	private class DefaultServiceInstanceChooser implements ServiceInstanceChooser{
 
+		@Override
+		public IServiceInstance choose(String serviceId) {
+			// TODO Auto-generated method stub
+			List<IServiceInstance> instances = AbstractServiceDiscoveryClient.this.getInstances(serviceId);
+			if(instances == null || instances.size() == 0) return null;
+			//TODO: random load balance
+			return null;
+		}
+		
+	}
 }
