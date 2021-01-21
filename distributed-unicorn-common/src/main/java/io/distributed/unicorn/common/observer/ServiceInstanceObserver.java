@@ -6,4 +6,5 @@ public interface ServiceInstanceObserver {
 	void onRpcResponse(Object resp, Throwable t);
 	void onRpcRequest(Object req);
 	void onInstanceStatus(ServiceInstanceStatus status);
+	void onUpdateStat();
 }

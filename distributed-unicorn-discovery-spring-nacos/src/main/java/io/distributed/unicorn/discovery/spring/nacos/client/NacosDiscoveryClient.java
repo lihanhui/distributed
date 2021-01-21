@@ -90,4 +90,12 @@ public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 	public List<IServiceInstance> getInstances(String serviceId) {
 		return serviceInstanceMap.get(serviceId);
 	}
+	@Override
+	public List<String> getServices() {
+		List<String> serviceIds = new LinkedList<>();
+		for (String serviceId: serviceInstanceMap.keySet()) {
+			serviceIds.add(serviceId);
+		}
+		return serviceIds;
+	}
 }

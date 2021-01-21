@@ -1,5 +1,6 @@
 package io.distributed.unicorn.common.service;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -8,8 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class ServiceInstanceStat {
-	private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-	
 	private AtomicLong totalReq = new AtomicLong(0);
 	private AtomicLong totalResp = new AtomicLong(0);
 	private AtomicLong totalError = new AtomicLong(0);
@@ -21,25 +20,11 @@ public class ServiceInstanceStat {
 	
 	private long lastUpdateDate = -1;
 	
-	private IServiceInstance instance;
-	private ScheduledFuture<?> result = null;
-	ServiceInstanceStat(IServiceInstance instance){
-		this.instance = instance;
-		result = scheduler.scheduleAtFixedRate(new UpdateStatTask(), 10, 10, TimeUnit.SECONDS);
+	private UpdateStatCommand<?> statCommand = new UpdateStatCommand();
+	ServiceInstanceStat(){
+		
 	}
-	private class UpdateStatTask implements Runnable {
-		@Override
-		public void run() {
-			ServiceInstanceStat.this.lastUpdateDate = System.currentTimeMillis();
-			ServiceInstanceStat.this.latestError.set(0);
-			ServiceInstanceStat.this.latestReq.set(0);
-			ServiceInstanceStat.this.latestResp.set(0);
-			
-			ServiceInstanceStat.this.totalError.set(0);
-			ServiceInstanceStat.this.totalReq.set(0);
-			ServiceInstanceStat.this.totalResp.set(0);
-		}
-	}
+	
 	public long lastUpdateDate() {
 		return lastUpdateDate;
 	}
@@ -84,5 +69,21 @@ public class ServiceInstanceStat {
 	}
 	public void incrLatestError(long incr) {
 		this.latestError.addAndGet(incr);
+	}
+	public void updateStat() {
+		try {
+			statCommand.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private class UpdateStatCommand<String> implements Callable<String>{
+		@Override
+		public String call() throws Exception {
+			ServiceInstanceStat.this.lastUpdateDate = System.currentTimeMillis();
+			return null;
+		}
+		
 	}
 }

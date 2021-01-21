@@ -17,10 +17,10 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	private  ServiceInstanceStatus status = ServiceInstanceStatus.INIT;
 	
 	private ServiceInstanceStat stat;
-	private DefaultRpcObserver observer;
+	private ServiceInstanceObserver observer;
 	AbstractServiceInstance(){
-		stat = new ServiceInstanceStat(this);
-		observer = new DefaultRpcObserver();
+		stat = new ServiceInstanceStat();
+		observer = new DefaultServiceInstanceObserver();
 	}
 	@Override
 	public void onRpcResponse(Object resp, Throwable t) {
@@ -34,7 +34,11 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	public void onInstanceStatus(ServiceInstanceStatus status) {
 		observer.onInstanceStatus(status);
 	}
-	
+	@Override
+	public void onUpdateStat() {
+		// TODO Auto-generated method stub
+		
+	}
 	public void serviceId(String serviceId) {
 		this.serviceId =serviceId;
 	}
@@ -97,7 +101,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 		return this.status;
 	}
 	
-	public class DefaultRpcObserver implements ServiceInstanceObserver{
+	public class DefaultServiceInstanceObserver implements ServiceInstanceObserver{
 		@Override
 		public void onRpcResponse(Object resp, Throwable t) {
 			stat.incrTotalResp(1);
@@ -115,6 +119,12 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 		@Override
 		public void onInstanceStatus(ServiceInstanceStatus status) {
 			AbstractServiceInstance.this.status = status;
+		}
+		
+		@Override
+		public void onUpdateStat() {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }
