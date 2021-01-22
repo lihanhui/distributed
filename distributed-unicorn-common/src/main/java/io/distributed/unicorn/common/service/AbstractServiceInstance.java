@@ -14,7 +14,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	private boolean secure = false;
 	private URI uri = null;
 	private Map<String, String> metadata = new HashMap<>();
-	private  ServiceInstanceStatus status = ServiceInstanceStatus.INIT;
+	private  ServiceInstanceStatus status = ServiceInstanceStatus.OPEN;
 	
 	private ServiceInstanceStat stat;
 	private ServiceInstanceObserver observer;
@@ -94,7 +94,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	}
 	@Override
 	public boolean warmup() {
-		return this.status == ServiceInstanceStatus.WARM_UP;
+		return this.status == ServiceInstanceStatus.HALF_OPEN;
 	}
 	@Override
 	public ServiceInstanceStatus status() {

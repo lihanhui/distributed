@@ -22,6 +22,7 @@ public abstract class AbstractServiceDiscoveryClient implements ServiceDiscovery
 			this.chooser = chooser;
 		}
 		scheduler.scheduleAtFixedRate(new UpdateStatTask(), 10, 10, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(new UpdateCircuitBreakerTask(), 100, 100, TimeUnit.MILLISECONDS);
 	}
 	//
 	public abstract List<IServiceInstance> getInstances(String serviceId);	
@@ -44,6 +45,20 @@ public abstract class AbstractServiceDiscoveryClient implements ServiceDiscovery
 		
 	}
 	private class UpdateStatTask implements Runnable {
+		@Override
+		public void run() {
+			List<String> serviceIds = getServices();
+			for(String serviceId: serviceIds) {
+				List<IServiceInstance> instances = getInstances(serviceId);
+				if(instances != null) continue;
+				for(IServiceInstance instance:instances) {
+					//TODO: 
+					//instance.s
+				}
+			}
+		}
+	}
+	private class UpdateCircuitBreakerTask implements Runnable {
 		@Override
 		public void run() {
 			List<String> serviceIds = getServices();

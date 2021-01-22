@@ -38,7 +38,7 @@ public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 		instanceId(instance.getInstanceId()).
 		host(instance.getIp()).
 		port(instance.getPort()).
-		metadata(instance.getMetadata()).status(ServiceInstanceStatus.WARM_UP);
+		metadata(instance.getMetadata()).status(ServiceInstanceStatus.HALF_CLOSE);
 		return b.build();
 	}
 	private void updateServiceInstances(String service, List<Instance> instances) {

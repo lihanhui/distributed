@@ -1,9 +1,8 @@
 package io.distributed.unicorn.common.service;
 
-public enum ServiceInstanceStatus {
-	INIT(0x0001, "init"), WARM_UP(0x0002, "warm up"), 
-	RUNNING(0x0004, "running"), ERROR(0x0008, "error"),
-	STOPPED(0x0004, "stopped");
+public enum ServiceInstanceStatus {// circuit breaker status
+	OPEN(0x0001, "open"), HALF_OPEN(0x0002, "half open"), 
+	CLOSE(0x0004, "close");
 	private int type;
 	private String desc;
 	
