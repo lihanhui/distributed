@@ -1,4 +1,4 @@
-package io.distributed.unicorn.discovery.spring.nacos.client;
+package io.distributed.unicorn.discovery.spring.context.client;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,40 +8,39 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.alibaba.nacos.api.annotation.NacosInjected;
-import com.alibaba.nacos.api.exception.NacosException;
-import com.alibaba.nacos.api.naming.NamingService;
-import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.alibaba.nacos.api.naming.pojo.ListView;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import io.distributed.unicorn.common.circuitbreak.ServiceInstanceStatus;
 import io.distributed.unicorn.common.discovery.AbstractServiceDiscoveryClient;
 import io.distributed.unicorn.common.service.IServiceInstance;
 import io.distributed.unicorn.common.service.ServiceInstanceBuilder;
-import io.distributed.unicorn.discovery.spring.nacos.annotation.NacosDiscoveryBean;
 
-@NacosDiscoveryBean
-public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
-	@NacosInjected
-	private NamingService namingService;
+// To disable the Eureka Discovery Client, you can set eureka.client.enabled to false. 
+// Eureka Discovery Client will also be disabled when spring.cloud.discovery.enabled is set to false.
+
+public abstract class AbstractDiscoveryClient extends AbstractServiceDiscoveryClient {
 	private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	
 	private ConcurrentHashMap<String, List<IServiceInstance>> serviceInstanceMap = 
 			new ConcurrentHashMap<>();
 
-	public NacosDiscoveryClient(){
+	public AbstractDiscoveryClient(){
 		scheduler.scheduleAtFixedRate(new UpdateServiceInstanceTask(), 10, 10, TimeUnit.SECONDS);
 	}
-	private IServiceInstance build(Instance instance) {
+	
+	protected abstract DiscoveryClient discoveryClient();
+	
+	private IServiceInstance build(ServiceInstance instance) {
 		ServiceInstanceBuilder b = ServiceInstanceBuilder.builder();
-		b.serviceId(instance.getServiceName()).
+		b.serviceId(instance.getServiceId()).
 		instanceId(instance.getInstanceId()).
-		host(instance.getIp()).
+		host(instance.getHost()).
 		port(instance.getPort()).
 		metadata(instance.getMetadata()).status(ServiceInstanceStatus.HALF_OPEN);
 		return b.build();
 	}
-	private void updateServiceInstances(String service, List<Instance> instances) {
+	private void updateServiceInstances(String service, List<ServiceInstance> instances) {
 		List<IServiceInstance> preInstances = this.serviceInstanceMap.get(service);
 		if(preInstances == null) preInstances = new LinkedList<>();
 		
@@ -51,7 +50,7 @@ public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 		});
 		
 		List<IServiceInstance> newInstances = new LinkedList<>();
-		for(Instance instance: instances) {
+		for(ServiceInstance instance: instances) {
 			if(!preInstanceMap.containsKey(instance.getInstanceId())) {
 				newInstances.add(build(instance));
 			}else {
@@ -62,24 +61,13 @@ public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 		serviceInstanceMap.put(service, newInstances);
 	}
 	private class UpdateServiceInstanceTask implements Runnable{
-
 		@Override
 		public void run() {
-			int pageNumber = 0;
-			int pageSize = 20;
 			
-			try {
-				ListView<String> services = 
-						namingService.getServicesOfServer(pageNumber, pageSize);
-				do {
-					for(String service: services.getData()) {
-						updateServiceInstances(service, namingService.getAllInstances(service));
-					}
-					++pageNumber;
-				}while(services.getCount() == pageSize);
-			} catch (NacosException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			List<String> services = discoveryClient().getServices();
+			
+			for(String service: services) {
+				updateServiceInstances(service, discoveryClient().getInstances(service));
 			}
 			
 		}
@@ -96,4 +84,5 @@ public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 		}
 		return serviceIds;
 	}
+	
 }

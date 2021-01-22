@@ -117,6 +117,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 		}
 		private void toUpdateStatus() {
 			// TODO: update status according to stat
+			//stat.
 		}
 	}
 }
