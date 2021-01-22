@@ -4,6 +4,4 @@ public class SimpleServiceInstance extends AbstractServiceInstance{
 	SimpleServiceInstance(){
 		
 	}
-
-	
 }

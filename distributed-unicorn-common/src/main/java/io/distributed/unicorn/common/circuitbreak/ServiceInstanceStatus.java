@@ -1,7 +1,7 @@
-package io.distributed.unicorn.common.service;
+package io.distributed.unicorn.common.circuitbreak;
 
 public enum ServiceInstanceStatus {// circuit breaker status
-	OPEN(0x0001, "open"), HALF_OPEN(0x0002, "half open"), 
+	HALF_OPEN(0x0001, "half open"), OPEN(0x0002, "open"), 
 	CLOSE(0x0004, "close");
 	private int type;
 	private String desc;

@@ -14,10 +14,10 @@ import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.api.naming.pojo.ListView;
 
+import io.distributed.unicorn.common.circuitbreak.ServiceInstanceStatus;
 import io.distributed.unicorn.common.discovery.AbstractServiceDiscoveryClient;
 import io.distributed.unicorn.common.service.IServiceInstance;
 import io.distributed.unicorn.common.service.ServiceInstanceBuilder;
-import io.distributed.unicorn.common.service.ServiceInstanceStatus;
 import io.distributed.unicorn.discovery.spring.nacos.annotation.NacosDiscoveryBean;
 
 @NacosDiscoveryBean

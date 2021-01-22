@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.distributed.unicorn.common.circuitbreak.ServiceInstanceStatus;
 import io.distributed.unicorn.common.observer.ServiceInstanceObserver;
 
 public abstract class AbstractServiceInstance implements IServiceInstance {
@@ -14,7 +15,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	private boolean secure = false;
 	private URI uri = null;
 	private Map<String, String> metadata = new HashMap<>();
-	private  ServiceInstanceStatus status = ServiceInstanceStatus.OPEN;
+	private  ServiceInstanceStatus status = ServiceInstanceStatus.HALF_OPEN;
 	
 	private ServiceInstanceStat stat;
 	private ServiceInstanceObserver observer;
@@ -31,13 +32,8 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 		observer.onRpcRequest(req);
 	}
 	@Override
-	public void onInstanceStatus(ServiceInstanceStatus status) {
-		observer.onInstanceStatus(status);
-	}
-	@Override
-	public void onUpdateStat() {
-		// TODO Auto-generated method stub
-		
+	public void onUpdateStatus() {
+		observer.onUpdateStatus();
 	}
 	public void serviceId(String serviceId) {
 		this.serviceId =serviceId;
@@ -92,10 +88,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	public Map<String, String> metadata() {
 		return metadata;
 	}
-	@Override
-	public boolean warmup() {
-		return this.status == ServiceInstanceStatus.HALF_OPEN;
-	}
+	
 	@Override
 	public ServiceInstanceStatus status() {
 		return this.status;
@@ -116,15 +109,14 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 			stat.incrTotalReq(1);
 			stat.incrLatestReq(1);
 		}
-		@Override
-		public void onInstanceStatus(ServiceInstanceStatus status) {
-			AbstractServiceInstance.this.status = status;
-		}
 		
 		@Override
-		public void onUpdateStat() {
-			// TODO Auto-generated method stub
-			
+		public void onUpdateStatus() {
+			stat.updateStat();
+			toUpdateStatus();
+		}
+		private void toUpdateStatus() {
+			// TODO: update status according to stat
 		}
 	}
 }

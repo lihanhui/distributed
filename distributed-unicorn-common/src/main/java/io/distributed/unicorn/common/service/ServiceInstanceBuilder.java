@@ -3,6 +3,8 @@ package io.distributed.unicorn.common.service;
 import java.net.URI;
 import java.util.Map;
 
+import io.distributed.unicorn.common.circuitbreak.ServiceInstanceStatus;
+
 public class ServiceInstanceBuilder {
 	private SimpleServiceInstance serviceInstance = new SimpleServiceInstance();
 	public static ServiceInstanceBuilder builder() {

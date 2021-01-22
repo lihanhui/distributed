@@ -5,8 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import io.distributed.unicorn.common.loadbalance.ServiceInstanceChooser;
 import io.distributed.unicorn.common.service.IServiceInstance;
-import io.distributed.unicorn.common.service.ServiceInstanceChooser;
 
 public abstract class AbstractServiceDiscoveryClient implements ServiceDiscoveryClient {
 	private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -52,8 +52,7 @@ public abstract class AbstractServiceDiscoveryClient implements ServiceDiscovery
 				List<IServiceInstance> instances = getInstances(serviceId);
 				if(instances != null) continue;
 				for(IServiceInstance instance:instances) {
-					//TODO: 
-					//instance.s
+					instance.onUpdateStatus();
 				}
 			}
 		}

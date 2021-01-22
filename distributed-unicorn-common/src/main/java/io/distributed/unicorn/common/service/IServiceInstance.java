@@ -3,6 +3,7 @@ package io.distributed.unicorn.common.service;
 import java.net.URI;
 import java.util.Map;
 
+import io.distributed.unicorn.common.circuitbreak.ServiceInstanceStatus;
 import io.distributed.unicorn.common.observer.ServiceInstanceObserver;
 
 public interface IServiceInstance extends ServiceInstanceObserver{
@@ -40,5 +41,13 @@ public interface IServiceInstance extends ServiceInstanceObserver{
 		Map<String, String> metadata();
 		
 		
-		boolean warmup();
+		default boolean halfOpen()  {
+			return status() == ServiceInstanceStatus.HALF_OPEN;
+		}
+		default boolean open() {
+			return status() == ServiceInstanceStatus.OPEN;
+		}
+		default boolean close() {
+			return status() == ServiceInstanceStatus.CLOSE;
+		}
 }
