@@ -20,9 +20,14 @@ public class ServiceInstanceStat {
 	
 	private long lastUpdateDate = -1;
 	
-	private UpdateStatCommand<?> statCommand = new UpdateStatCommand();
+	private final long createDate = System.currentTimeMillis();
+	private UpdateStatCommand<String> updateStatCommand = new UpdateStatCommand<>();
 	ServiceInstanceStat(){
 		
+	}
+	
+	public long createDate() {
+		return createDate;
 	}
 	
 	public long lastUpdateDate() {
@@ -72,7 +77,7 @@ public class ServiceInstanceStat {
 	}
 	public void updateStat() {
 		try {
-			statCommand.call();
+			updateStatCommand.call();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
