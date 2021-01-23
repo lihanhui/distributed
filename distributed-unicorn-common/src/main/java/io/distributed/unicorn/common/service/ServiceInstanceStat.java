@@ -12,20 +12,23 @@ public class ServiceInstanceStat {
 	private AtomicLong totalReq = new AtomicLong(0);
 	private AtomicLong totalResp = new AtomicLong(0);
 	private AtomicLong totalError = new AtomicLong(0);
-	private AtomicInteger statInterval = new AtomicInteger(0); // seconds
 	
 	private AtomicLong latestReq = new AtomicLong(0);
 	private AtomicLong latestResp = new AtomicLong(0);
 	private AtomicLong latestError = new AtomicLong(0);
 	
+	private int continuousErrorCount = 0;
 	private long lastUpdateDate = -1;
-	
+	private long statInterval = 10; // seconds
 	private final long createDate = System.currentTimeMillis();
 	private UpdateStatCommand<String> updateStatCommand = new UpdateStatCommand<>();
+	
 	ServiceInstanceStat(){
 		
 	}
-	
+	public int continuousErrorCount() {
+		return continuousErrorCount;
+	}
 	public long createDate() {
 		return createDate;
 	}
@@ -51,11 +54,11 @@ public class ServiceInstanceStat {
 	public void incrTotalError(long incr) {
 		this.totalError.addAndGet(incr);
 	}
-	public int statInterval() {
-		return statInterval.get();
+	public long statInterval() {
+		return statInterval;
 	}
-	public void incrStatInterval(int incr) {
-		this.statInterval.addAndGet(incr);
+	public void statInterval(long statInterval) {
+		this.statInterval = statInterval;
 	}
 	public long latestReq() {
 		return latestReq.get();

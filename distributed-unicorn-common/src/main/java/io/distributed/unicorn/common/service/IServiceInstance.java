@@ -40,6 +40,7 @@ public interface IServiceInstance extends ServiceInstanceObserver{
 		 */
 		Map<String, String> metadata();
 		
+		int weight();
 		
 		default boolean halfOpen()  {
 			return status() == ServiceInstanceStatus.HALF_OPEN;

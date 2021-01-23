@@ -14,6 +14,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	private int port = 0; 
 	private boolean secure = false;
 	private URI uri = null;
+	private int weight = -1; 
 	private Map<String, String> metadata = new HashMap<>();
 	private  ServiceInstanceStatus status = ServiceInstanceStatus.HALF_OPEN;
 	
@@ -53,6 +54,9 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	public void uri(URI uri){
 		this.uri =uri;
 	}
+	public void weight(int weight){
+		this.weight =weight;
+	}
 	public void metadata(Map<String, String> metadata){
 		this.metadata =metadata;
 	}
@@ -83,6 +87,10 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	@Override
 	public URI uri() {
 		return uri;
+	}
+	@Override
+	public int weight() {
+		return weight;
 	}
 	@Override
 	public Map<String, String> metadata() {
