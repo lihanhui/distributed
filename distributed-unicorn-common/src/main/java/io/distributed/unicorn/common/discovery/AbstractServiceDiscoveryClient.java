@@ -1,12 +1,14 @@
 package io.distributed.unicorn.common.discovery;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import io.distributed.unicorn.common.loadbalance.ServiceInstanceChooser;
 import io.distributed.unicorn.common.service.IServiceInstance;
+import io.distributed.unicorn.common.service.ServiceInstanceStat;
 
 public abstract class AbstractServiceDiscoveryClient implements ServiceDiscoveryClient {
 	private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -21,8 +23,8 @@ public abstract class AbstractServiceDiscoveryClient implements ServiceDiscovery
 		}else {
 			this.chooser = chooser;
 		}
-		scheduler.scheduleAtFixedRate(new UpdateStatTask(), 10, 10, TimeUnit.SECONDS);
-		scheduler.scheduleAtFixedRate(new UpdateCircuitBreakerTask(), 100, 100, TimeUnit.MILLISECONDS);
+		scheduler.scheduleAtFixedRate(new UpdateStatTask(), ServiceInstanceStat.STAT_INTERVAL, ServiceInstanceStat.STAT_INTERVAL, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(new UpdateCircuitBreakerTask(), ServiceInstanceStat.STAT_INTERVAL, ServiceInstanceStat.STAT_INTERVAL, TimeUnit.SECONDS);
 	}
 	//
 	public abstract List<IServiceInstance> getInstances(String serviceId);	
@@ -36,11 +38,10 @@ public abstract class AbstractServiceDiscoveryClient implements ServiceDiscovery
 
 		@Override
 		public IServiceInstance choose(String serviceId) {
-			// TODO Auto-generated method stub
 			List<IServiceInstance> instances = AbstractServiceDiscoveryClient.this.getInstances(serviceId);
 			if(instances == null || instances.size() == 0) return null;
-			//TODO: random load balance
-			return null;
+			Random r = new Random();
+			return instances.get(r.nextInt(instances.size()));
 		}
 		
 	}

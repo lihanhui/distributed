@@ -17,6 +17,7 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	private int weight = -1; 
 	private Map<String, String> metadata = new HashMap<>();
 	private  ServiceInstanceStatus status = ServiceInstanceStatus.HALF_OPEN;
+	private  ServiceInstanceStatus preStatus = null;
 	
 	private ServiceInstanceStat stat;
 	private ServiceInstanceObserver observer;
@@ -132,19 +133,30 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 		}
 		private void toUpdateStatus() {
 			long errTime = stat.continuousErrorCount() * ServiceInstanceStat.STAT_INTERVAL;
-			if(errTime > 15) {
+			if(errTime >= 15) {
 				if(close()) {
 					status = ServiceInstanceStatus.HALF_OPEN;
+					preStatus = ServiceInstanceStatus.CLOSE;
 				}else if(halfOpen()) {
-					status = ServiceInstanceStatus.OPEN;
+					if(preStatus != ServiceInstanceStatus.HALF_OPEN) {
+						status = ServiceInstanceStatus.OPEN;
+						preStatus = ServiceInstanceStatus.HALF_OPEN;
+					}else {
+						if(errTime >= 30) {
+							status = ServiceInstanceStatus.OPEN;
+							preStatus = ServiceInstanceStatus.HALF_OPEN;
+						}
+					}
 				}
 			}
 			long successTime = stat.continuousSuccessCount() * ServiceInstanceStat.STAT_INTERVAL;
-			if(successTime > 15) {
+			if(successTime >= 15) {
 				if(open()) {
 					status = ServiceInstanceStatus.HALF_OPEN;
+					preStatus = ServiceInstanceStatus.OPEN;
 				}else if(halfOpen()) {
 					status = ServiceInstanceStatus.CLOSE;
+					preStatus = ServiceInstanceStatus.HALF_OPEN;
 				}
 			}
 		}
