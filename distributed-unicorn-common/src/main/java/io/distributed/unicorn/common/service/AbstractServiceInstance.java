@@ -124,8 +124,22 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 			toUpdateStatus();
 		}
 		private void toUpdateStatus() {
-			// TODO: update status according to stat
-			//stat.
+			long errTime = stat.continuousErrorCount() * ServiceInstanceStat.STAT_INTERVAL;
+			if(errTime > 15) {
+				if(close()) {
+					status = ServiceInstanceStatus.HALF_OPEN;
+				}else if(halfOpen()) {
+					status = ServiceInstanceStatus.OPEN;
+				}
+			}
+			long successTime = stat.continuousSuccessCount() * ServiceInstanceStat.STAT_INTERVAL;
+			if(successTime > 15) {
+				if(open()) {
+					status = ServiceInstanceStatus.HALF_OPEN;
+				}else if(halfOpen()) {
+					status = ServiceInstanceStatus.CLOSE;
+				}
+			}
 		}
 	}
 }

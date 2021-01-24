@@ -17,17 +17,21 @@ public class ServiceInstanceStat {
 	private AtomicLong latestResp = new AtomicLong(0);
 	private AtomicLong latestError = new AtomicLong(0);
 	
-	private int continuousErrorCount = 0;
+	private long continuousErrorCount = 0; //连续统计周期发生错误（比例大于50%）的次数
+	private long continuousSuccessCount = 0; //连续统计周期发生错误比例小于50%的次数
 	private long lastUpdateDate = -1;
-	private long statInterval = 10; // seconds
+	public static final long STAT_INTERVAL = 1; // seconds
 	private final long createDate = System.currentTimeMillis();
 	private UpdateStatCommand<String> updateStatCommand = new UpdateStatCommand<>();
 	
 	ServiceInstanceStat(){
 		
 	}
-	public int continuousErrorCount() {
+	public long continuousErrorCount() {
 		return continuousErrorCount;
+	}
+	public long continuousSuccessCount(){
+		return continuousSuccessCount;
 	}
 	public long createDate() {
 		return createDate;
@@ -55,10 +59,7 @@ public class ServiceInstanceStat {
 		this.totalError.addAndGet(incr);
 	}
 	public long statInterval() {
-		return statInterval;
-	}
-	public void statInterval(long statInterval) {
-		this.statInterval = statInterval;
+		return STAT_INTERVAL;
 	}
 	public long latestReq() {
 		return latestReq.get();
@@ -90,6 +91,20 @@ public class ServiceInstanceStat {
 		@Override
 		public String call() throws Exception {
 			ServiceInstanceStat.this.lastUpdateDate = System.currentTimeMillis();
+			long error = ServiceInstanceStat.this.latestError.get();
+			if(error > 0 && (100 * error) / ServiceInstanceStat.this.latestReq() > 50) {//有错且错误大于50%
+				++ServiceInstanceStat.this.continuousErrorCount;
+				continuousSuccessCount = 0;
+			}else {// 重新计数
+				ServiceInstanceStat.this.continuousErrorCount = 0;
+				++continuousSuccessCount;
+			}
+			ServiceInstanceStat.this.latestError.set(0);
+			ServiceInstanceStat.this.latestResp.set(0);
+			ServiceInstanceStat.this.latestReq.set(0);
+			ServiceInstanceStat.this.totalError.set(0);
+			ServiceInstanceStat.this.totalResp.set(0);
+			ServiceInstanceStat.this.totalReq.set(0);
 			return null;
 		}
 		
