@@ -36,6 +36,10 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 	public void onUpdateStatus() {
 		observer.onUpdateStatus();
 	}
+	@Override
+	public void onUpdateStat() {
+		observer.onUpdateStat();
+	}
 	public void serviceId(String serviceId) {
 		this.serviceId =serviceId;
 	}
@@ -119,8 +123,11 @@ public abstract class AbstractServiceInstance implements IServiceInstance {
 		}
 		
 		@Override
-		public void onUpdateStatus() {
+		public void onUpdateStat() {
 			stat.updateStat();
+		}
+		@Override
+		public void onUpdateStatus() {
 			toUpdateStatus();
 		}
 		private void toUpdateStatus() {
