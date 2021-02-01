@@ -7,12 +7,8 @@
   <packaging>pom</packaging>
   <modules>
   	<module>distributed-unicorn-lock</module>
-    <module>distributed-unicorn-discovery-spring-context</module>
-    <module>distributed-unicorn-discovery-spring-nacos</module>
-    <module>distributed-unicorn-discovery-spring-eureka</module>
-    <module>distributed-unicorn-discovery-spring-zookeeper</module>
     <module>distributed-unicorn-common</module>
     <module>distributed-unicorn-id-generator</module>
-    <module>distributed-unicorn-discovery-spring-consul</module>
+    <module>distributed-unicorn-discovery</module>
   </modules>
 </project>

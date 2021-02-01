@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.distributed.unicorn</groupId>
+    <artifactId>distributed-unicorn</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>io.distributed.unicorn</groupId>
+  <artifactId>distributed-unicorn-discovery</artifactId>
+  <version>1.0</version>
+  <name>distributed-unicorn-discovery</name>
+  <url>http://maven.apache.org</url>
+  <packaging>pom</packaging>
+  <modules>
+    <module>distributed-unicorn-discovery-spring-context</module>
+    <module>distributed-unicorn-discovery-spring-nacos</module>
+    <module>distributed-unicorn-discovery-spring-eureka</module>
+    <module>distributed-unicorn-discovery-spring-zookeeper</module>
+    <module>distributed-unicorn-discovery-spring-consul</module>
+  </modules>
+</project>

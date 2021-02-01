@@ -4,15 +4,18 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.distributed.unicorn</groupId>
-    <artifactId>distributed-unicorn</artifactId>
+    <artifactId>distributed-unicorn-discovery</artifactId>
     <version>1.0</version>
   </parent>
   <groupId>io.distributed.unicorn</groupId>
-  <artifactId>distributed-unicorn-discovery-spring-consul</artifactId>
+  <artifactId>distributed-unicorn-discovery-spring-context</artifactId>
   <version>1.0</version>
-  <name>distributed-unicorn-discovery-spring-consul</name>
+  <name>distributed-unicorn-discovery-spring-context</name>
   <url>http://maven.apache.org</url>
   <properties>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>  
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
@@ -22,26 +25,21 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-commons -->
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure -->
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-autoconfigure</artifactId>
+	    <version>2.4.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-commons -->
     <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-commons</artifactId>
         <version>3.0.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-autoconfigure</artifactId>
-        <version>2.4.0</version>
-    </dependency>
-    <dependency>
+	<dependency>
         <groupId>io.distributed.unicorn</groupId>
         <artifactId>distributed-unicorn-common</artifactId>
-        <version>1.0</version>
-    </dependency>
-    <dependency>
-        <groupId>io.distributed.unicorn</groupId>
-        <artifactId>distributed-unicorn-discovery-spring-context</artifactId>
         <version>1.0</version>
     </dependency>
   </dependencies>

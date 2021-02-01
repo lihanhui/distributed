@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.distributed.unicorn</groupId>
-    <artifactId>distributed-unicorn</artifactId>
+    <artifactId>distributed-unicorn-discovery</artifactId>
     <version>1.0</version>
   </parent>
   <groupId>io.distributed.unicorn</groupId>
