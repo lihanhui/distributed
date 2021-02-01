@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.distributed.unicorn</groupId>
+    <artifactId>distributed-unicorn-coordinator</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>io.distributed.unicorn</groupId>
+  <artifactId>distributed-unicorn-coordinator-zookeeper</artifactId>
+  <version>1.0</version>
+  <name>distributed-unicorn-coordinator-zookeeper</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-framework -->
+	<dependency>
+	    <groupId>org.apache.curator</groupId>
+	    <artifactId>curator-framework</artifactId>
+	    <version>5.0.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
+	<dependency>
+	    <groupId>org.apache.curator</groupId>
+	    <artifactId>curator-recipes</artifactId>
+	    <version>5.0.0</version>
+	</dependency>
+	<dependency>
+        <groupId>io.distributed.unicorn</groupId>
+        <artifactId>distributed-unicorn-common</artifactId>
+        <version>1.0</version>
+    </dependency>	    
+  </dependencies>
+</project>
