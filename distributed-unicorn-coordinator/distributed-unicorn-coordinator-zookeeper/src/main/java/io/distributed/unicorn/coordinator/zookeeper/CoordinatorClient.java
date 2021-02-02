@@ -22,16 +22,17 @@ public class CoordinatorClient extends LeaderSelectorListenerAdapter implements 
 	private String zkServers;
 	private final CuratorFramework client;
 	private final LeaderSelector leaderSelector;
-	private static String LEADER_PATH = "/wolverine/scheduler/leader";
+	private final String leaderPath; //"/wolverine/scheduler/leader";
 	private List<LeaderStateListener> listeners = new ArrayList<>();
 	
-	public CoordinatorClient(String zkServers) {
+	public CoordinatorClient(String zkServers, String path) {
 		super();
 		this.zkServers = zkServers;
+		this.leaderPath = path;
 		this.client = CuratorFrameworkFactory.newClient(
 				this.zkServers, 
 				new ExponentialBackoffRetry(1000, 3));
-		leaderSelector = new LeaderSelector(client, LEADER_PATH, this);
+		leaderSelector = new LeaderSelector(client, leaderPath, this);
 		leaderSelector.autoRequeue();
 	}
 	
@@ -82,5 +83,29 @@ public class CoordinatorClient extends LeaderSelectorListenerAdapter implements 
 	@Override
 	public boolean isLeader() {
 		return this.hasLeaderShip;
+	}
+
+	@Override
+	public void write(String path, byte[] data) {
+		if(!this.isLeader()) {
+			throw new RuntimeException("the current client is not leader");
+		}
+		try {
+			this.client.create().forPath(path, data);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public byte[] read(String path) {
+		try {
+			return this.client.getData().forPath(path);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
