@@ -32,6 +32,7 @@ public class CoordinatorClient extends LeaderSelectorListenerAdapter implements 
 		this.client = CuratorFrameworkFactory.newClient(
 				this.zkServers, 
 				new ExponentialBackoffRetry(1000, 3));
+		// single thread inside - takeLeadership in this thread
 		leaderSelector = new LeaderSelector(client, leaderPath, this);
 		leaderSelector.autoRequeue();
 	}
@@ -44,7 +45,7 @@ public class CoordinatorClient extends LeaderSelectorListenerAdapter implements 
 		client.start();
 		leaderSelector.start();
 	}
-	
+	// called in ConnectionStateManager by another thread instead of thread which will call takeLeadership
 	@Override
     public void stateChanged(CuratorFramework client, ConnectionState newState) {
 		try{
