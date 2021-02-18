@@ -18,14 +18,14 @@ import io.distributed.unicorn.common.coordinator.LeaderStateListener;
 
 // http://curator.apache.org/curator-recipes/leader-latch.html
 // https://curator.apache.org/curator-recipes/leader-election.html
-public class CoordinatorClient extends LeaderSelectorListenerAdapter implements CoordinatorService, Closeable{
+public class SimpleCoordinatorService extends LeaderSelectorListenerAdapter implements CoordinatorService, Closeable{
 	private String zkServers;
 	private final CuratorFramework client;
 	private final LeaderSelector leaderSelector;
 	private final String leaderPath; //"/wolverine/scheduler/leader";
 	private List<LeaderStateListener> listeners = new ArrayList<>();
 	
-	public CoordinatorClient(String zkServers, String path) {
+	public SimpleCoordinatorService(String zkServers, String path) {
 		super();
 		this.zkServers = zkServers;
 		this.leaderPath = path;
