@@ -44,7 +44,9 @@ public class ReadOnlyCoordinatorClient implements ReadOnlyCoordinatorService, Cl
 	@Override
 	public byte[] read(String path) {
 		try {
-			return this.client.getData().forPath(path);
+			if( null != this.client.checkExists().forPath(path)) {
+				return this.client.getData().forPath(path);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
