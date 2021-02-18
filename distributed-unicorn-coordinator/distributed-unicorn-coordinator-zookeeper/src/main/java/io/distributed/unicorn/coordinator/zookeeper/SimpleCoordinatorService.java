@@ -68,10 +68,10 @@ public class SimpleCoordinatorService extends LeaderSelectorListenerAdapter impl
 	private boolean hasLeaderShip = false;
 	@Override
 	public void takeLeadership(CuratorFramework arg0) throws Exception {
+		hasLeaderShip = true;
 		for(LeaderStateListener listener: this.listeners) {
 			listener.onLeaderTaken();
 		}
-		hasLeaderShip = true;
 		while(hasLeaderShip) {
 			try {
 				Thread.sleep(3000);
@@ -92,7 +92,11 @@ public class SimpleCoordinatorService extends LeaderSelectorListenerAdapter impl
 			throw new RuntimeException("the current client is not leader");
 		}
 		try {
-			this.client.create().forPath(path, data);
+			if( null != this.client.checkExists().forPath(path)) {
+				this.client.setData().forPath(path, data);
+			}else {
+				this.client.create().forPath(path, data);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +106,9 @@ public class SimpleCoordinatorService extends LeaderSelectorListenerAdapter impl
 	@Override
 	public byte[] read(String path) {
 		try {
-			return this.client.getData().forPath(path);
+			if( null != this.client.checkExists().forPath(path)) {
+				return this.client.getData().forPath(path);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
