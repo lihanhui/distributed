@@ -23,11 +23,11 @@ public class ServiceDiscoveryConfiguration
 	}
 	public void setBeanName(String name) {
 		this.name = name;
-		//System.out.println("String name");
+		System.out.println("String name: " + name);
 	}
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.context = applicationContext;
-		//System.out.println("ApplicationContext applicationContext");
+		System.out.println("ApplicationContext applicationContext");
 	}
 	public void setEnvironment(Environment environment) {
 		//System.out.println("Environment environment");

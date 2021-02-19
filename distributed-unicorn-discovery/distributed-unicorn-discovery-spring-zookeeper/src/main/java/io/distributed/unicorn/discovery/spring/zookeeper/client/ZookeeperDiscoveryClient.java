@@ -15,6 +15,7 @@ public class ZookeeperDiscoveryClient extends AbstractDiscoveryClient {
 	private DiscoveryClient discoveryClient;
 
 	public ZookeeperDiscoveryClient(){
+		System.out.println("ZookeeperDiscoveryClient");
 	}
 	@Override
 	protected DiscoveryClient discoveryClient() {
