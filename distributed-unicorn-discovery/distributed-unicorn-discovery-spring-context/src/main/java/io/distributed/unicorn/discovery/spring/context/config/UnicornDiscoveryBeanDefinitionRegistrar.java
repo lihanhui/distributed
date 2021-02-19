@@ -8,12 +8,14 @@ import org.springframework.core.type.AnnotationMetadata;
 
 public class UnicornDiscoveryBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar{
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-		// TODO Auto-generated method stub
+		System.out.println("UnicornDiscoveryBeanDefinitionRegistrar");
 		BeanDefinition annotationProcessor = BeanDefinitionBuilder
 				.genericBeanDefinition(ServiceDiscoveryConfiguration.class)
 				.getBeanDefinition();
+		String beanName = ServiceDiscoveryConfiguration.class.getName();
+		beanName = beanName.substring(beanName.lastIndexOf(".")+1);
 		registry.registerBeanDefinition(
-				ServiceDiscoveryConfiguration.class.getName(),
+				beanName,
 				annotationProcessor);
 	}
 
