@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import io.distributed.unicorn.discovery.spring.context.config.ServiceDiscoveryConfiguration;
@@ -14,7 +15,7 @@ import io.distributed.unicorn.discovery.spring.context.config.ServiceDiscoveryCo
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
-@ConditionalOnBean(ServiceDiscoveryConfiguration.class)
+@DependsOn("ServiceDiscoveryConfiguration")
 @Component
 public @interface DiscoveryBean {
 

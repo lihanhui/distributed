@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.ANNOTATION_TYPE)
+@Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @ConditionalOnProperty(name="unicorn.discovery.registry", havingValue="zookeeper")
 @org.springframework.cloud.client.discovery.EnableDiscoveryClient()
 public @interface EnableZookeeperDiscovery {

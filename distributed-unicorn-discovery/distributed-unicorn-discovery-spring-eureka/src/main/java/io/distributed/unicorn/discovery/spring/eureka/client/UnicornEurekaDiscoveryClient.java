@@ -22,11 +22,11 @@ import io.distributed.unicorn.discovery.spring.eureka.annotation.EurekaDiscovery
 // Eureka Discovery Client will also be disabled when spring.cloud.discovery.enabled is set to false.
 
 @EurekaDiscoveryBean
-public class EurekaDiscoveryClient extends AbstractDiscoveryClient {
+public class UnicornEurekaDiscoveryClient extends AbstractDiscoveryClient {
 	@Autowired
 	private DiscoveryClient discoveryClient;
 
-	public EurekaDiscoveryClient(){
+	public UnicornEurekaDiscoveryClient(){
 	}
 	@Override
 	protected DiscoveryClient discoveryClient() {

@@ -21,7 +21,7 @@ import io.distributed.unicorn.common.service.ServiceInstanceBuilder;
 import io.distributed.unicorn.discovery.spring.nacos.annotation.NacosDiscoveryBean;
 
 @NacosDiscoveryBean
-public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
+public class UnicornNacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 	@NacosInjected
 	private NamingService namingService;
 	private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -29,7 +29,7 @@ public class NacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 	private ConcurrentHashMap<String, List<IServiceInstance>> serviceInstanceMap = 
 			new ConcurrentHashMap<>();
 
-	public NacosDiscoveryClient(){
+	public UnicornNacosDiscoveryClient(){
 		scheduler.scheduleAtFixedRate(new UpdateServiceInstanceTask(), 10, 10, TimeUnit.SECONDS);
 	}
 	private IServiceInstance build(Instance instance) {
