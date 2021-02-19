@@ -8,12 +8,12 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import io.distributed.unicorn.discovery.spring.context.config.ServiceDiscoveryConfiguration;
+import io.distributed.unicorn.discovery.spring.context.config.UnicornDiscoveryBeanDefinitionRegistrar;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Import(ServiceDiscoveryConfiguration.class)
+@Import(UnicornDiscoveryBeanDefinitionRegistrar.class)
 public @interface EnableUnicornDiscovery {
 
 }
