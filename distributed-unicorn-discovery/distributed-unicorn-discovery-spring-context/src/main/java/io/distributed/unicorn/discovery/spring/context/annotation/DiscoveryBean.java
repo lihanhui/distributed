@@ -15,7 +15,7 @@ import io.distributed.unicorn.discovery.spring.context.config.ServiceDiscoveryCo
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
-@DependsOn("ServiceDiscoveryConfiguration")
+@DependsOn("serviceDiscoveryConfiguration")
 @Component
 public @interface DiscoveryBean {
 
