@@ -18,9 +18,7 @@ import io.distributed.unicorn.common.circuitbreak.ServiceInstanceStatus;
 import io.distributed.unicorn.common.discovery.AbstractServiceDiscoveryClient;
 import io.distributed.unicorn.common.service.IServiceInstance;
 import io.distributed.unicorn.common.service.ServiceInstanceBuilder;
-import io.distributed.unicorn.discovery.spring.nacos.annotation.NacosDiscoveryBean;
 
-@NacosDiscoveryBean
 public class UnicornNacosDiscoveryClient extends AbstractServiceDiscoveryClient {
 	@NacosInjected
 	private NamingService namingService;

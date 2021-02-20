@@ -14,7 +14,6 @@ import io.distributed.unicorn.discovery.spring.zookeeper.client.UnicornZookeeper
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
-@ConditionalOnProperty(name="unicorn.discovery.registry", havingValue="zookeeper")
 @Import(UnicornZookeeperDiscoveryBeanDefinitionRegistrar.class)
 @org.springframework.cloud.client.discovery.EnableDiscoveryClient()
 public @interface EnableZookeeperDiscovery {

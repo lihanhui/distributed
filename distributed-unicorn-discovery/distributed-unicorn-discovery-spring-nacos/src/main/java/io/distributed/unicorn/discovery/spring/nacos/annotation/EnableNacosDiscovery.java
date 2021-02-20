@@ -6,12 +6,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Import;
+
+import io.distributed.unicorn.discovery.spring.nacos.client.UnicornNacosDiscoveryBeanDefinitionRegistrar;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-@ConditionalOnProperty(name="unicorn.discovery.registry", havingValue="nacos")
+@Import(UnicornNacosDiscoveryBeanDefinitionRegistrar.class)
 @com.alibaba.nacos.spring.context.annotation.discovery.EnableNacosDiscovery()
 public @interface EnableNacosDiscovery {
 

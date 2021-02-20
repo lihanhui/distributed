@@ -6,12 +6,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Import;
+
+import io.distributed.unicorn.discovery.spring.eureka.client.UnicornEurekaDiscoveryBeanDefinitionRegistrar;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-@ConditionalOnProperty(name="unicorn.discovery.registry", havingValue="eureka")
+@Import(UnicornEurekaDiscoveryBeanDefinitionRegistrar.class)
 @org.springframework.cloud.client.discovery.EnableDiscoveryClient()
 public @interface EnableEurekaDiscovery {
 
