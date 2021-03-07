@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 import org.redisson.api.RFuture;
 
-import io.doraemon.distributed.LeaseLockFuture;
+import io.distributed.unicorn.common.lock.LeaseLockFuture;
 
 public class LeaseLockFutureImpl<T> implements LeaseLockFuture<T> {
 	private RFuture<T> future;

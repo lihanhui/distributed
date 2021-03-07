@@ -5,8 +5,8 @@ import java.util.concurrent.locks.Condition;
 
 import org.redisson.api.RLock;
 
-import io.doraemon.distributed.LeaseLockFuture;
-import io.doraemon.distributed.lock.AbstractLeaseLock;
+import io.distributed.unicorn.common.lock.AbstractLeaseLock;
+import io.distributed.unicorn.common.lock.LeaseLockFuture;
 
 public class RedisLeaseLock extends AbstractLeaseLock{
 	private RLock lock;

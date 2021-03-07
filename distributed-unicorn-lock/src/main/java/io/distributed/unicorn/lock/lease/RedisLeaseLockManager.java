@@ -4,8 +4,8 @@ import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 
-import io.doraemon.distributed.lock.AbstractLeaseLockManager;
-import io.doraemon.distributed.lock.LeaseLock;
+import io.distributed.unicorn.common.lock.AbstractLeaseLockManager;
+import io.distributed.unicorn.common.lock.LeaseLock;
 
 public class RedisLeaseLockManager extends AbstractLeaseLockManager{
 	private RedissonClient redissonClient;
