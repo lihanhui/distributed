@@ -2,8 +2,6 @@ package io.distributed.unicorn.common.lock;
 
 import java.util.concurrent.TimeUnit;
 
-import io.doraemon.distributed.LeaseLockFuture;
-
 public interface LeaseLockAsync {
 	/**
      * Unlocks the lock independently of its state
