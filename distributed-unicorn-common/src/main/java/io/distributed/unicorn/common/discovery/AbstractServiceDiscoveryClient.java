@@ -51,8 +51,8 @@ public abstract class AbstractServiceDiscoveryClient implements ServiceDiscovery
 			List<String> serviceIds = getServices();
 			for(String serviceId: serviceIds) {
 				List<IServiceInstance> instances = getInstances(serviceId);
-				if(instances != null) continue;
-				for(IServiceInstance instance:instances) {
+				if(instances == null) continue;
+				for(IServiceInstance instance: instances) {
 					instance.onUpdateStat();
 				}
 			}

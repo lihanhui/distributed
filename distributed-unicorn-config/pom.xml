@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.distributed.unicorn</groupId>
+    <artifactId>distributed-unicorn</artifactId>
+    <version>1.0</version>
+  </parent>
   <groupId>io.distributed.unicorn</groupId>
-  <artifactId>distributed-unicorn</artifactId>
+  <artifactId>distributed-unicorn-config</artifactId>
   <version>1.0</version>
+  <name>distributed-unicorn-config</name>
+  <url>http://maven.apache.org</url>
   <packaging>pom</packaging>
   <modules>
-  	<module>distributed-unicorn-lock</module>
-    <module>distributed-unicorn-common</module>
-	<module>distributed-unicorn-config</module>
-    <module>distributed-unicorn-id-generator</module>
-    <module>distributed-unicorn-discovery</module>
-    <module>distributed-unicorn-coordinator</module>
+
   </modules>
 </project>
